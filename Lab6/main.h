@@ -30,7 +30,7 @@ bool CheckFileExists(char *filename);
 int Input(char *filename, treeNode **head);
 
 /*Вывод согласно варианту*/
-void ResultOutput(treeNode *head);
+int ResultOutput(treeNode *head);
 
 
 

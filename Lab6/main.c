@@ -87,7 +87,7 @@ int Input(char *filename, treeNode **head)
 
     char c;
     char *wordToInsert;
-    int size, i, vovels;
+    int size, i, vovels, wordsNumber = 0;
     while (!feof(file))
     {
         size = 0;
@@ -108,11 +108,11 @@ int Input(char *filename, treeNode **head)
         /*Теперь внутри дерева есть указатель на наше слово, нужно "открепить"*/
     /*указатель, то есть зануляем его, чтобы на след шаге снова выделить память*/
         wordToInsert = NULL;
-        /*при необходимости можно добавить сюда счётчик слов и в return*/
+        wordsNumber++;
     }
 
     fclose(file);
-    return 1;
+    return wordsNumber;
 }
 
 void TreeFree(treeNode **head)
@@ -124,21 +124,25 @@ void TreeFree(treeNode **head)
     TreeFree(&((*head)->right));
     TreeFree(&((*head)->left));
     free(*head);
+    (*head) = NULL;
 }
 
-void ResultOutput(treeNode *head)
+int ResultOutput(treeNode *head)
 {
+    static int wordsPrinted = 0;
     if (head == NULL)
     {
-        return;
+        return 0;
     }
     else
     {
         if (head->vovelsNumber>=3)
         {
             printf("Word: %s, vovels here: %d\n",head->word, head->vovelsNumber);
+            wordsPrinted++;
         }
         ResultOutput(head->right);
     }
+    return wordsPrinted;
 }
 
